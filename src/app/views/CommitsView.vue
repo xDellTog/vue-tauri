@@ -16,25 +16,33 @@ onMounted(() => {
 <template>
   <button @click="router.back()">Back</button>
 
-  <button @click="commitsStore.getCommits">Get Commits</button>
+  <button :disabled="!!commitsStore.error" @click="commitsStore.getCommits">
+    Get Commits
+  </button>
 
   <h2>Commits</h2>
   <h5>{{ appStore.repositoryPath }}</h5>
 
-  <table v-if="!commitsStore.isLoading">
-    <thead>
-      <tr>
-        <th>Subject</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="commit in commitsStore.commits">
-        <td>{{ commit.subject }}</td>
-        <td>{{ commit.relativeDate }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div v-if="!commitsStore.isLoading">
+    <div v-if="!commitsStore.error">
+      <table v-if="commitsStore.commits.length > 0">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="commit in commitsStore.commits">
+            <td>{{ commit.subject }}</td>
+            <td>{{ commit.relativeDate }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>{{ commitsStore.error }}</div>
+  </div>
 
   <p v-else>Loading...</p>
 </template>
