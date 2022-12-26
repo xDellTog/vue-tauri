@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { router } from "../router";
 import { useCommitsStore } from "../stores/commits.store";
+import { useAppStore } from "../stores/app.store";
 
 const commitsStore = useCommitsStore();
+
+const appStore = useAppStore();
+
+onMounted(() => {
+  commitsStore.getCommits();
+});
 </script>
 
 <template>
@@ -11,6 +19,7 @@ const commitsStore = useCommitsStore();
   <button @click="commitsStore.getCommits">Get Commits</button>
 
   <h2>Commits</h2>
+  <h5>{{ appStore.repositoryPath }}</h5>
 
   <table v-if="!commitsStore.isLoading">
     <thead>

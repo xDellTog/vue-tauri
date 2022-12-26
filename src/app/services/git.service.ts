@@ -1,13 +1,19 @@
 import { Command } from "@tauri-apps/api/shell";
 
 export default class GitService {
-  static async getCommits(): Promise<any[]> {
-    const output = await new Command("git-get-commits", [
-      "log",
-      '--pretty=format:"_&_%h_&_%s_&_%an_&_%ar_&_%D"',
-      "--graph",
-      "--all",
-    ]).execute();
+  static async getCommits(repositoryPath: string): Promise<any[]> {
+    const output = await new Command(
+      "git-get-commits",
+      [
+        "log",
+        '--pretty=format:"_&_%h_&_%s_&_%an_&_%ar_&_%D"',
+        "--graph",
+        "--all",
+      ],
+      {
+        cwd: repositoryPath,
+      }
+    ).execute();
 
     if (output.stderr) {
       return Promise.reject(output.stderr);

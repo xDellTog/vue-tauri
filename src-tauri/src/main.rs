@@ -5,8 +5,6 @@
 
 use tauri::Manager;
 
-// mod git;
-
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
@@ -17,7 +15,6 @@ fn main() {
             }
             Ok(())
         })
-        // .invoke_handler(tauri::generate_handler![git::get_commits])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
