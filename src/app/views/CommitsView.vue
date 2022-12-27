@@ -14,41 +14,78 @@ onMounted(() => {
 </script>
 
 <template>
-  <button @click="router.back()">Back</button>
+  <div class="flex flex-col h-screen w-screen">
+    <div class="flex divide-x border-b">
+      <button
+        class="hover:bg-gray-100 active:bg-gray-200 px-2 py-1"
+        @click="router.back()"
+      >
+        Change repository
+      </button>
 
-  <button :disabled="!!commitsStore.error" @click="commitsStore.getCommits">
-    Get Commits
-  </button>
-
-  <h2>Commits</h2>
-  <h5>{{ appStore.repositoryPath }}</h5>
-
-  <div v-if="!commitsStore.isLoading">
-    <div v-if="!commitsStore.error">
-      <table v-if="commitsStore.commits.length > 0">
-        <thead>
-          <tr>
-            <th>Subject</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="commit in commitsStore.commits">
-            <td>{{ commit.subject }}</td>
-            <td>{{ commit.relativeDate }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <button
+        class="hover:bg-gray-100 active:bg-gray-200 px-2 py-1"
+        :disabled="!!commitsStore.error"
+        @click="commitsStore.getCommits"
+      >
+        Refresh
+      </button>
     </div>
 
-    <div>{{ commitsStore.error }}</div>
+    <div class="flex-grow">
+      <div
+        v-if="
+          !commitsStore.isLoading &&
+          !commitsStore.error &&
+          commitsStore.commits.length > 0
+        "
+      >
+        <table class="w-full select-none">
+          <thead>
+            <tr>
+              <th class="text-left text-xl">Subject</th>
+              <th class="text-left text-xl">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="odd:bg-gray-50 hover:bg-gray-100 cursor-pointer"
+              v-for="commit in commitsStore.commits"
+            >
+              <td>{{ commit.subject }}</td>
+              <td>{{ commit.relativeDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        v-if="commitsStore.error"
+        class="flex h-full w-full items-center justify-center"
+      >
+        <p class="text-gray-400">
+          {{ commitsStore.error }}
+        </p>
+      </div>
+
+      <div
+        v-if="commitsStore.isLoading"
+        class="flex h-full w-full items-center justify-center"
+      >
+        <p>Loading...</p>
+      </div>
+    </div>
+
+    <div
+      :class="`flex divide-x border-t ${
+        commitsStore.error ? 'bg-red-500' : 'bg-blue-500'
+      }`"
+    >
+      <button
+        class="text-sm text-white hover:opacity-80 active:opacity-60 px-2 py-1"
+      >
+        {{ appStore.repositoryPath }}
+      </button>
+    </div>
   </div>
-
-  <p v-else>Loading...</p>
 </template>
-
-<style scoped>
-table {
-  width: 100%;
-}
-</style>
