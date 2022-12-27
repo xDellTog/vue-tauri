@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "vue-tauri",
+    "productName": "Vue Tauri",
     "version": "0.1.0"
   },
   "tauri": {
