@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// import Split from "../components/split/Split.vue";
+// import SplitArea from "../components/split/SplitArea.vue";
+
 import { onMounted } from "vue";
 import { router } from "../router";
 import { useCommitsStore } from "../stores/commits.store";
@@ -33,31 +36,51 @@ onMounted(() => {
     </div>
 
     <div class="flex-grow">
-      <div
+      <!-- <Split style="height: 500px">
+        <SplitArea :size="25"> -->
+      <table
         v-if="
           !commitsStore.isLoading &&
           !commitsStore.error &&
           commitsStore.commits.length > 0
         "
+        :class="`select-none ${
+          commitsStore.selectedCommits.length > 0 ? 'w-9/12' : 'w-full'
+        }`"
       >
-        <table class="w-full select-none">
-          <thead>
-            <tr>
-              <th class="text-left text-xl">Subject</th>
-              <th class="text-left text-xl">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="odd:bg-gray-50 hover:bg-gray-100 cursor-pointer"
-              v-for="commit in commitsStore.commits"
-            >
-              <td>{{ commit.subject }}</td>
-              <td>{{ commit.relativeDate }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <thead>
+          <tr>
+            <th class="text-left text-xl">Subject</th>
+            <th class="text-left text-xl">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(commit, i) in commitsStore.commits"
+            :class="`cursor-pointer ${
+              commitsStore.selectedCommits.includes(i)
+                ? 'bg-gray-200'
+                : 'odd:bg-gray-50 hover:bg-gray-100'
+            }`"
+            @click="() => commitsStore.selectCommit(i)"
+          >
+            <td>{{ commit.subject }}</td>
+            <td>{{ commit.relativeDate }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- </SplitArea> -->
+      <!-- <SplitArea :size="75"> -->
+      <div
+        class="bg-red-500 h-full w-3/12"
+        v-if="commitsStore.selectedCommits.length > 0"
+      >
+        <span v-for="commit in commitsStore.selectedCommits">
+          {{ commit }}
+        </span>
       </div>
+      <!-- </SplitArea>
+      </Split> -->
 
       <div
         v-if="commitsStore.error"

@@ -5,10 +5,22 @@ import { useAppStore } from "./app.store";
 
 export const useCommitsStore = defineStore("commits", () => {
   const commits = ref<any[]>([]);
+  const selectedCommits = ref<any[]>([]);
   const isLoading = ref(false);
   const error = ref("");
 
   const appStore = useAppStore();
+
+  function selectCommit(index: number) {
+    const hasCommit = selectedCommits.value.some((ic) => ic === index);
+    if (!hasCommit) {
+      selectedCommits.value.push(index);
+    } else {
+      selectedCommits.value = selectedCommits.value.filter(
+        (ic) => ic !== index
+      );
+    }
+  }
 
   function getCommits() {
     commits.value = [];
@@ -28,8 +40,10 @@ export const useCommitsStore = defineStore("commits", () => {
 
   return {
     commits,
+    selectedCommits,
     isLoading,
     error,
     getCommits,
+    selectCommit,
   };
 });
