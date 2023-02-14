@@ -4,8 +4,8 @@ import HomeView from "../views/HomeView.vue";
 import CommitsView from "../views/CommitsView.vue";
 
 const routes = [
-  { path: "/", component: TestView },
-  // { path: "/", component: HomeView },
+  // { path: "/", component: TestView },
+  { path: "/", component: HomeView },
   { path: "/commits", component: CommitsView },
 ];
 

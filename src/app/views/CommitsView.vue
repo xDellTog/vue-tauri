@@ -35,7 +35,7 @@ onMounted(() => {
       </button>
     </div>
 
-    <div class="flex-grow">
+    <div class="flex flex-grow">
       <!-- <Split style="height: 500px">
         <SplitArea :size="25"> -->
       <table
@@ -69,8 +69,7 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
-      <!-- </SplitArea> -->
-      <!-- <SplitArea :size="75"> -->
+
       <div
         class="bg-red-500 h-full w-3/12"
         v-if="commitsStore.selectedCommits.length > 0"
@@ -79,8 +78,6 @@ onMounted(() => {
           {{ commit }}
         </span>
       </div>
-      <!-- </SplitArea>
-      </Split> -->
 
       <div
         v-if="commitsStore.error"

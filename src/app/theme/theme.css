@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.gutter.gutter-vertical {
+  transition: background-color 500ms ease-in-out;
+  background-color: white;
+  cursor: row-resize;
+}
+.gutter.gutter-vertical:hover {
+  background-color: cyan;
+}
+
+.gutter.gutter-horizontal {
+  transition: background-color 500ms ease-in-out;
+  background-color: white;
+  cursor: col-resize;
+}
+.gutter.gutter-horizontal:hover {
+  background-color: cyan;
+}
